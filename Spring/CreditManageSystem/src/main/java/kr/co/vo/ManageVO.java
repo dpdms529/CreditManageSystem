@@ -1,7 +1,5 @@
 package kr.co.vo;
 
-import java.util.List;
-
 public class ManageVO {
 	private String course_id;
 	private String title;
@@ -23,10 +21,13 @@ public class ManageVO {
 	private boolean abeek_tech;
 	private boolean abeek_design;
 	private String gp;
+	
+	// 수강내역 리스트 비교할 때 사용
 	private String[] course_id_arr;
 	private String[] year_arr;
 	private String[] semester_arr;
 	private String[] gp_arr;
+	private String[] target_grade_arr;
 	
 	public String getCourse_id() {
 		return course_id;
@@ -171,6 +172,12 @@ public class ManageVO {
 	}
 	public void setGp_arr(String[] gp_arr) {
 		this.gp_arr = gp_arr;
+	}
+	public String[] getTarget_grade_arr() {
+		return target_grade_arr;
+	}
+	public void setTarget_grade_arr(String[] target_grade_arr) {
+		this.target_grade_arr = target_grade_arr;
 	}
 	
 }

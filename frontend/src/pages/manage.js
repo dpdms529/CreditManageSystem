@@ -80,18 +80,22 @@ class Manage extends Component{
         let year_arr = [];
         let semester_arr = [];
         let gp_arr = [];
+        let target_grade_arr = [];
+        console.log("onSave");
         for(let i=0;i<this.state.data.length;i++) {
             course_id_arr.push(this.state.data[i].course_id);
             year_arr.push(this.state.data[i].year);
             semester_arr.push(this.state.data[i].semester);
             gp_arr.push(this.state.data[i].gp);
+            target_grade_arr.push(this.state.data[i].target_grade);
         }
         console.log(course_id_arr, year_arr, semester_arr);
         axios.post("/onSave", {
             course_id_arr: course_id_arr,
             year_arr: year_arr,
             semester_arr: semester_arr,
-            gp_arr: gp_arr
+            gp_arr: gp_arr,
+            target_grade_arr: target_grade_arr
         })
         .catch((error) => {
             alert("error")
@@ -219,7 +223,7 @@ class Manage extends Component{
                                     </div>;
                 _content =  <Container className="manage">
                                 <Tables id={1} getCriteria={this.getCriteria} getCredit={this.getCredit} criteria={this.state.criteria}  credit={this.state.credit}></Tables>
-                                <Tables id={2} onOpenSearchModal={()=>this.openModal(1)} data={this.state.data} onDelete={this.onDelete} getTakes={this.getTakes}></Tables>
+                                <Tables id={2} onOpenSearchModal={()=>this.openModal(1)} data={this.state.data} onDelete={this.onDelete} getTakes={this.getTakes} onSave={this.onSave}></Tables>
                                 <CustomModal dialogClassName="modal-w90" title="과목 검색" content={_modalContent} show={this.state.isOpenSearchModal} onHide={()=>this.closeModal(1)}></CustomModal>
                             </Container>;
                 break;
@@ -259,7 +263,7 @@ class Manage extends Component{
                                                 </Form.Group>
                                             </Form>;
                 _content =  <Container className="manage">
-                                <Tables id={3} onOpenSearchModal={()=>this.openModal(1)} onOpenResultModal={()=>this.openModal(2)} data={this.state.data} onDelete={this.onDelete} getTakes={this.getTakes}></Tables>
+                                <Tables id={3} onOpenSearchModal={()=>this.openModal(1)} onOpenResultModal={()=>this.openModal(2)} data={this.state.data} onDelete={this.onDelete} getTakes={this.getTakes} onSave={this.onSave}></Tables>
                                 <CustomModal dialogClassName="modal-w90" title="과목 검색" content={_modalSearchContent} show={this.state.isOpenSearchModal} onHide={()=>this.closeModal(1)}></CustomModal>
                                 <CustomModal dialogClassName="modal-w90" title="졸업시뮬레이션 결과" content={_modalResultContent} show={this.state.isOpenResultModal} onHide={()=>this.closeModal(2)}></CustomModal>
                             </Container>;

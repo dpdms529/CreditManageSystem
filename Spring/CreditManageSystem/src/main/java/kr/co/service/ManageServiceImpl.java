@@ -29,7 +29,7 @@ public class ManageServiceImpl implements ManageService {
 		if(manageVO.isAbeek_liberal_arts()) { abeekStr += "022|"; }
 		if(manageVO.isAbeek_tech()) { abeekStr += "024|"; }
 		if(manageVO.isAbeek_design()) { abeekStr += "023|"; }
-		if(abeekStr.length() != 0) abeekStr.substring(0, abeekStr.length()-1);
+		if(abeekStr.length() != 0) abeekStr = abeekStr.substring(0, abeekStr.length()-1);
 		
 //		searchVO.setYear(year);
 //		searchVO.setSemester(semester);
@@ -37,6 +37,7 @@ public class ManageServiceImpl implements ManageService {
 //		searchVO.setDivision_cd(division_cd);
 //		searchVO.setTitle(title);
 		manageVO.setAbeekStr(abeekStr);
+		System.out.println(abeekStr);
 		
 		return dao.search(manageVO);
 	}
@@ -68,6 +69,7 @@ public class ManageServiceImpl implements ManageService {
 				insert.setYear(manageVO.getYear_arr()[i]);
 				insert.setSemester(manageVO.getSemester_arr()[i]);
 				insert.setGp(manageVO.getGp_arr()[i]);
+				insert.setTarget_grade(manageVO.getTarget_grade_arr()[i]);
 				System.out.println("insert" + insert.getCourse_id() + insert.getGp());
 				_insert.add(insert);
 			}

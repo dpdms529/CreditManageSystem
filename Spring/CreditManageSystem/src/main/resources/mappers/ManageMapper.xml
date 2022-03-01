@@ -65,6 +65,7 @@
 		   order by year, semester, target_grade, course_id
 	</select>
 	
+	<!-- 수강내역 불러오기 -->
 	<select id="getTakes" resultType="kr.co.vo.ManageVO">
 		select lt.year, lt.semester, lt.target_grade, lt.course_id, lt.title, lt.division_cd, lt.division_name, lt.credit, lt.gp, lt.student_id, listagg(rt.abeek_name, ',') within group(order by rt.abeek_name) as abeek_name from
 		(select s.year, s.semester, s.target_grade, s.course_id, c.title, s.division_cd, d.division_name, c.credit, t.student_id, t.gp
@@ -77,17 +78,19 @@
 		group by lt.year, lt.semester, lt.target_grade, lt.course_id, lt.title, lt.division_cd, lt.division_name, lt.credit, lt.gp, lt.student_id
 	</select>
 	
+	<!-- 수강내역 추가 -->
 	<insert id="insertTakes" parameterType="java.util.List">
 		insert into takes_test
 			<foreach item="item" separator=" union all " collection="list">
 			(
 			select s.year, s.semester, s.course_id, s.target_grade, '201912352', #{item.gp}
 			from section s, course c
-			where c.course_id=s.course_id and s.course_id=#{item.course_id} and s.year=${item.year} and s.semester=${item.semester}
+			where c.course_id=s.course_id and s.course_id=#{item.course_id} and s.year=${item.year} and s.semester=${item.semester} and s.target_grade=${item.target_grade}
 			)
 			</foreach>
 	</insert>
 	
+	<!-- 수강내역 삭제 -->
 	<delete id="deleteTakes" parameterType="java.util.List">
 		delete from takes_test where student_id='201912352' and
 		<foreach item="item" separator=" or " collection="list">

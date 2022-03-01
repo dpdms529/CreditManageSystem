@@ -55,7 +55,8 @@ public class ManageController {
 	@RequestMapping(value="/onSave", method=RequestMethod.POST)
 	public void onSave(@RequestBody ManageVO manageVO) throws Exception {
 		logger.info("onSave");
-		System.out.println(manageVO.getCourse_id_arr()[0] + manageVO.getYear_arr()[0] + manageVO.getSemester_arr()[0] + manageVO.getGp_arr()[0]);
+		if(manageVO.getCourse_id_arr().length == 0) System.out.println("비어있음");
+		else System.out.println(manageVO.getCourse_id_arr()[0] + manageVO.getYear_arr()[0] + manageVO.getSemester_arr()[0] + manageVO.getGp_arr()[0] + manageVO.getTarget_grade_arr()[0]);
 		service.onSave(manageVO);
 	}
 	
