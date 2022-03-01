@@ -66,10 +66,10 @@
 	</select>
 	
 	<!-- 수강내역 불러오기 -->
-	<select id="getTakes" resultType="kr.co.vo.ManageVO">
+	<select id="getTakes" parameterType="String" resultType="kr.co.vo.ManageVO">
 		select lt.year, lt.semester, lt.target_grade, lt.course_id, lt.title, lt.division_cd, lt.division_name, lt.credit, lt.gp, lt.student_id, listagg(rt.abeek_name, ',') within group(order by rt.abeek_name) as abeek_name from
 		(select s.year, s.semester, s.target_grade, s.course_id, c.title, s.division_cd, d.division_name, c.credit, t.student_id, t.gp
-		from course c, section s, division d, takes_test t where s.course_id = c.course_id and s.division_cd=d.division_cd and t.student_id='201912352' and t.course_id=s.course_id and t.year=s.year and t.semester=s.semester and t.target_grade=s.target_grade) lt
+		from course c, section s, division d, takes_test t where s.course_id = c.course_id and s.division_cd=d.division_cd and t.student_id=#{studentId} and t.course_id=s.course_id and t.year=s.year and t.semester=s.semester and t.target_grade=s.target_grade) lt
 		left outer join
 		(select s.year, s.semester, c.course_id, c.title, s.target_grade, s.division_cd, d.division_name, c.credit, a.abeek_cd, ac.abeek_name, a.abeek_credit
 		from course c, section s, division d, abeek_code ac, abeek a
@@ -79,11 +79,11 @@
 	</select>
 	
 	<!-- 수강내역 추가 -->
-	<insert id="insertTakes" parameterType="java.util.List">
+	<insert id="insertTakes" parameterType="Map">
 		insert into takes_test
-			<foreach item="item" separator=" union all " collection="list">
+			<foreach item="item" separator=" union all " collection="insert">
 			(
-			select s.year, s.semester, s.course_id, s.target_grade, '201912352', #{item.gp}
+			select s.year, s.semester, s.course_id, s.target_grade, #{studentId}, #{item.gp}
 			from section s, course c
 			where c.course_id=s.course_id and s.course_id=#{item.course_id} and s.year=${item.year} and s.semester=${item.semester} and s.target_grade=${item.target_grade}
 			)
@@ -91,9 +91,9 @@
 	</insert>
 	
 	<!-- 수강내역 삭제 -->
-	<delete id="deleteTakes" parameterType="java.util.List">
-		delete from takes_test where student_id='201912352' and
-		<foreach item="item" separator=" or " collection="list">
+	<delete id="deleteTakes" parameterType="Map">
+		delete from takes_test where student_id=#{studentId} and
+		<foreach item="item" separator=" or " collection="remove">
 			(course_id=#{item.course_id} and year=${item.year} and semester=${item.semester})
 		</foreach>
 	</delete>

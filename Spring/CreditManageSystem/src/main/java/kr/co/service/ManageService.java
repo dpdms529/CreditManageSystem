@@ -8,8 +8,8 @@ public interface ManageService {
 	
 	public List<ManageVO> search(ManageVO manageVO) throws Exception;
 	
-	public List<ManageVO> getTakes() throws Exception;
+	public List<ManageVO> getTakes(String studentId) throws Exception;
 	
-	public void onSave(ManageVO manageVO) throws Exception;
+	public void onSave(ManageVO manageVO, String studentId) throws Exception;
 
 }

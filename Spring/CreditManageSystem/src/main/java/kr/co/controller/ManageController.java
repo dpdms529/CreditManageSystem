@@ -3,6 +3,8 @@ package kr.co.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.co.service.ManageService;
 import kr.co.vo.ManageVO;
+import kr.co.vo.MemberVO;
 
 @Controller
 @RequestMapping("")
@@ -45,19 +48,23 @@ public class ManageController {
 	@ResponseBody
 	@CrossOrigin
 	@RequestMapping(value="/getTakes", method=RequestMethod.POST)
-	public List<ManageVO> getTakes() throws Exception {
+	public List<ManageVO> getTakes(HttpServletRequest request, HttpSession session) throws Exception {
 		logger.info("getTakes");
-		return service.getTakes();
+		session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
+		return service.getTakes(member.getStudentId());
 	}
 	
 	@ResponseBody
 	@CrossOrigin
 	@RequestMapping(value="/onSave", method=RequestMethod.POST)
-	public void onSave(@RequestBody ManageVO manageVO) throws Exception {
+	public void onSave(@RequestBody ManageVO manageVO, HttpServletRequest request, HttpSession session) throws Exception {
 		logger.info("onSave");
+		session = request.getSession();
+		MemberVO member = (MemberVO) session.getAttribute("member");
 		if(manageVO.getCourse_id_arr().length == 0) System.out.println("비어있음");
 		else System.out.println(manageVO.getCourse_id_arr()[0] + manageVO.getYear_arr()[0] + manageVO.getSemester_arr()[0] + manageVO.getGp_arr()[0] + manageVO.getTarget_grade_arr()[0]);
-		service.onSave(manageVO);
+		service.onSave(manageVO, member.getStudentId());
 	}
 	
 	

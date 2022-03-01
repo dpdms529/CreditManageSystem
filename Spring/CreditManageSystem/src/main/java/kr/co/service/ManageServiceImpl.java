@@ -1,7 +1,9 @@
 package kr.co.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -43,13 +45,13 @@ public class ManageServiceImpl implements ManageService {
 	}
 
 	@Override
-	public List<ManageVO> getTakes() throws Exception {		
-		return dao.getTakes();
+	public List<ManageVO> getTakes(String studentId) throws Exception {		
+		return dao.getTakes(studentId);
 	}
 	
 	@Override
-	public void onSave(ManageVO manageVO) throws Exception {
-		List<ManageVO> originTakes = dao.getTakes();
+	public void onSave(ManageVO manageVO, String studentId) throws Exception {
+		List<ManageVO> originTakes = dao.getTakes(studentId);
 		System.out.println("length:" + manageVO.getCourse_id_arr().length);
 		List<ManageVO> _insert = new ArrayList<>();
 		List<ManageVO> _remove = new ArrayList<>();
@@ -92,8 +94,18 @@ public class ManageServiceImpl implements ManageService {
 				_remove.add(remove);
 			}
 		}
-		if(!_insert.isEmpty()) dao.insertTakes(_insert);
-		if(!_remove.isEmpty()) dao.deleteTakes(_remove);
+		if(!_insert.isEmpty()) {
+			Map<String, Object> insertMap = new HashMap<String, Object>();
+			insertMap.put("insert",  _insert);
+			insertMap.put("studentId", studentId);
+			dao.insertTakes(insertMap);
+		}
+		if(!_remove.isEmpty()) {
+			Map<String, Object> removeMap = new HashMap<String, Object>();
+			removeMap.put("remove",  _remove);
+			removeMap.put("studentId", studentId);
+			dao.deleteTakes(removeMap);
+		}
 	}
 	
 }
