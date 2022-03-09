@@ -146,7 +146,7 @@ class Tables extends Component{
                                 </tbody>
                             </Table>;
                 break;
-            case 2:         
+            case 2:
             case 3:
                 data = this.props.data;
                 for(let i=0;i<data.length;i++) {
