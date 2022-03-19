@@ -27,29 +27,29 @@ def code_crawling() :
 		        # 강의 계획서 클릭
 				find = driver.find_element_by_xpath('/html/body/div[1]/div/div/div/div[1]/div/div[5]/div[1]/div[4]/div[1]/div/div[%d]/div/div/div[23]/div/div'%index)
 				find.click()
-				time.sleep(2)
+				time.sleep(1)
 				# 과목코드 가져오기        
 				code = driver.find_element_by_id('ubiviewer_%d_CELL4191_1_14'%cc).text
 			except Exception: 
 				try :
 					# 과목코드 가져오기
 					code = driver.find_element_by_id('ubiviewer_%d_CELL983_1_14'%cc).text
-					time.sleep(2)
+					time.sleep(1)
 				except Exception:
 					try :
 						# 과목코드 가져오기
 						code = driver.find_element_by_id('ubiviewer_%d_CELL3949_1_10'%cc).text
-						time.sleep(2)
+						time.sleep(1)
 					except Exception:
 						try :
 							# 과목코드 가져오기
 							code = driver.find_element_by_id('ubiviewer_%d_CELL983_1_29'%cc).text
-							time.sleep(2)
+							time.sleep(1)
 						except Exception :
 							try :
 								# 과목코드 가져오기
 								code = driver.find_element_by_id('ubiviewer_%d_CELL983_1_31'%cc).text
-								time.sleep(2)
+								time.sleep(1)
 							except Exception as error : #강의계획서 없거나 찾지못한 예외 경우
 								print(error)
 								code = "NO"
@@ -58,7 +58,7 @@ def code_crawling() :
 			try :
 				# 강의 계획서 닫기
 				driver.find_element_by_id('mainframe_childframe_uniLessSubjtTblInqP01_titlebar_closebutton').click()
-				time.sleep(2)
+				time.sleep(1)
 			except :
 				#닫을게 없는경우
 				print("hello")
@@ -68,7 +68,7 @@ def code_crawling() :
 			print(code)
 		for i in range(21) :
 			driver.find_element_by_css_selector('#mainframe_childframe_form_grdLessSubjtExcel_vscrollbar_incbutton').click()
-		time.sleep(4)
+		time.sleep(3)
 	return class_code
     
 def list2exel(crawlingList) :
